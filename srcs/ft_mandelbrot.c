@@ -1,51 +1,60 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_mandelbrot.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/09 14:13:05 by fmaury            #+#    #+#             */
+/*   Updated: 2017/10/10 12:36:32 by fmaury           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-void    ft_mandelbrot(t_env *env, int *data)
+void    ft_mandelbrot(t_env *env)
 {
-  double x1;
-  double x2;
-  double y1;
-  double y2;
   double zoom_x;
   double zoom_y;
   int x;
   int y;
   double tmp;
 
-  x1 = -2.1 / env->zoom;
-  x2 = 0.6 / env->zoom;
-  y1 = -1.2 / env->zoom;
-  y2 = 1.2 / env->zoom;
-  zoom_x = env->imgx/(x2 - x1);
-  zoom_y = env->imgy/(y2 - y1);
+  zoom_x = env->x/(env->x2 - env->x1);
+  zoom_y = env->y/(env->y2 - env->y1);
   x = 0;
-  while (x < env->imgx && x < WIDTH)
+  while (x < WIDTH)
   {
     y = 0;
-    while (y < env->imgy && y < HEIGHT)
+    while (y < HEIGHT)
     {
-      double c_r = x / zoom_x + x1;
-      double c_i = y / zoom_y + y1;
-      double z_r = 0;
-      double z_i = 0;
-      int i = 0;
+      double c_r;
+      double c_i;
+      double z_r;
+      double z_i;
+      int i;
+
+      z_r = 0;
+      z_i = 0;
+      i = 0;
+      c_i = y / zoom_y + env->y1;
+	  c_r = x / zoom_x + env->x1;
       while (1)
       {
         tmp = z_r;
         z_r = z_r*z_r - z_i*z_i + c_r;
         z_i = 2*z_i*tmp + c_i;
         i++;
-        if (z_r*z_r + z_i*z_i >= 4 || i >= IT_MAX)
+        if (z_r*z_r + z_i*z_i >= 5 || i >= env->it)
           break;
       }
-      if (i == IT_MAX)
-        data[y * 1000 + x] = 0xFFFFFF;
+      if (i == env->it)
+        env->data[y * 1000 + x] = 0xFFFFFF;
       else
-        data[y * 1000 + x] = 0;
+        env->data[y * 1000 + x] = 0xFF0000;
       y++;
     }
     x++;
   }
   mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
-
 }
