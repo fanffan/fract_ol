@@ -29,12 +29,47 @@ int  ft_mouse(int button, int x,int y, t_env *env)
 	  env->x2 = (env->x2 + env->diff_x * (1 - ((double)x / WIDTH)));
 	  env->it -= 1;
   }
-  ft_mandelbrot(env);
+  ft_mandelbrot(env, 0, WIDTH);
   return (0);
+}
+
+void	ft_mand1(t_env *env, int x)
+{
+	ft_printf("x:%d\n", x);
+	ft_mandelbrot(env, 0, WIDTH / 4);
+}
+
+void	ft_mand2(t_env *env, int x)
+{
+	ft_printf("x:%d\n", x);
+	ft_mandelbrot(env, WIDTH / 4, WIDTH / 3);
+}
+
+void	ft_fractol(void (**f)(t_env *), t_env *env)
+{
+	pthread_t	thread1;
+	pthread_t	thread2;
+
+	ft_printf("lol\n");
+	if (pthread_create(&thread1, NULL, (void *)f[0], env) == -1 ||
+			pthread_create(&thread2, NULL, (void *)f[1], env) == -1)
+	{
+		ft_putstr("pthread error");
+		return ;
+	}
+	if (pthread_join(thread1, NULL))
+	{
+		ft_putstr("pthread_join");
+		return;
+	}
 }
 
 void   ft_choose_fract(t_env *env, char *str)
 {
+	void	mand[2];
+
+	mand[0] = ft_mand1;
+	mand[1] = ft_mand2;
 	if (ft_strcmp("Mandelbrot", str) == 0 || ft_strcmp("mandelbrot", str) == 0)
 	{
 		env->x = 1000; 
@@ -44,7 +79,7 @@ void   ft_choose_fract(t_env *env, char *str)
 		env->y1 = -1.2;
 		env->y2 = 1.2;
 		env->it = 50;
-		ft_mandelbrot(env);
+		ft_fractol(mand, env);
 	}
 }
 

@@ -6,24 +6,22 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 14:13:05 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/10 12:36:32 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/10 15:11:38 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void    ft_mandelbrot(t_env *env)
+void    ft_mandelbrot(t_env *env, int x, int xmax)
 {
   double zoom_x;
   double zoom_y;
-  int x;
   int y;
   double tmp;
 
   zoom_x = env->x/(env->x2 - env->x1);
   zoom_y = env->y/(env->y2 - env->y1);
-  x = 0;
-  while (x < WIDTH)
+  while (x < xmax && x < WIDTH)
   {
     y = 0;
     while (y < HEIGHT)
