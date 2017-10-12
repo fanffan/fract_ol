@@ -1,63 +1,76 @@
-#******************************************************************************#
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: fmaury <marvin@42.fr>                      +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/04 11:00:31 by fmaury            #+#    #+#              #
-#    Updated: 2017/03/10 17:55:12 by fmaury           ###   ########.fr        #
-#                                                                              #
-#******************************************************************************#
+NAME				= fractol
 
-NAME			= fractol
+COMPILER			= gcc
 
-COMPILER		= gcc
+CC_FLAGS			= -Wall -Werror -Wextra
 
-CC_FLAGS		= -Wall -Werror -Wextra -g
+LIBFT				= libft/libft.a
 
-LIB_FLAG = -framework OpenGL -framework AppKit utilitaire/minilibx_macos/libmlx.a
+LIB_FLAG = -lmlx -framework OpenGL -framework AppKit -Llibft -lft
 
 LIBNUX_FLAG = -L/usr/X11/lib -lXext -lX11 mlx/libmlx.a
 
-INC				= ./includes
+INC					= includes/
 
-SRC_DIR		= ./srcs
+SRC_DIR				= srcs
 
 SRC		=	main.c \
         ft_launcher.c \
+		ft_julia.c \
         ft_mandelbrot.c
 
-OBJ		= $(SRC:.c=.o)
+SRCS				= $(addprefix $(ASM_SRC_DIR)/, $(ASM_SRC))
+
+OBJ					= $(SRC:.c=.o)
 
 
-NEWLINE		= @echo ""
+OBJS_DIR			= .objs
 
-all : $(NAME)
+OBJS				= $(addprefix $(OBJS_DIR)/, $(OBJ))
 
-$(NAME): $(OBJ) $(INC)
-	@$(NEWLINE)
-	@echo "Compilation..."
-	@$(NEWLINE)
-	#$(MAKE) -C Libft/
-	$(COMPILER) $(CC_FLAGS) $(OBJ) $(LIBNUX_FLAG) Libft/libft.a -o $(NAME) 
-	@echo "Fract'ol cree !"
-	$(NEWLINE)
+all : proj $(LIBFT) $(NAME)
 
-%.o: $(SRC_DIR)/%.c
-	$(COMPILER) $(CC_FLAGS) -I $(INC) -c $< -o $@
+proj:
+ifneq ($(shell test -e corewar && test -e asm;echo $$?), 0)
+	@echo ""
+	@echo "______ ______   ___   _____  _____  _____  _     "
+	@echo "|  ___|| ___ \ / _ \ /  __ \|_   _||  _  || |    "
+	@echo "| |_   | |_/ // /_\ \| /  \/  | |  | | | || |    "
+	@echo "|  _|  |    / |  _  || |      | |  | | | || |    "
+	@echo "| |    | |\ \ | | | || \__/\  | |  \ \_/ /| |____"
+	@echo "\_|    \_| \_|\_| |_/ \____/  \_/   \___/ \_____/"
+	@echo ""
+endif
+
+.objs/%.o:srcs/%.c $(INC)
+	@mkdir -p .objs
+	@$(COMPILER) $(CC_FLAGS) -I $(INC) -c $< -o $@ || (echo "\033[K \033[36mFRACTOL :      \033[0m [\033[31m $(notdir $<)\033[0m ] \033[31m✕\033[0m")
+	@echo "\033[K \033[36mFRACTOL :      \033[0m [ compiling :\033[33m $(notdir $<)\033[0m ]\033[1A"
+
+$(NAME): $(OBJS) $(INC) $(LIBFT)
+	@$(COMPILER) $(CC_FLAGS) $(LIB_FLAG) $(OBJS) -L libft/ -lft -o $(NAME) || (echo "\033[1A\033[K \033[36mCompilation\033[0m" "[\033[31m  " $(NAME) "\033[0m  ]" "\033[31m✕\033[0m"; exit 1)
+	@echo " \033[36mCompilation\033[0m" "[\033[32;1m  " $(NAME) "\033[0m  ]" "\033[K\033[0;32;1m✓\033[0m"
+ 
+ifneq ($(shell make -q -C libft/;echo $$?), 0)
+.PHONY: $(LIBFT)
+$(VISU)
+endif
+
+$(LIBFT):
+	@Make -C libft/
 
 clean:
-	@echo "Suppression des objets"
-	$(NEWLINE)
-	@rm -f $(FDF_OBJ)
+	@echo " \033[36mDeletion    \033[0m[\033[33m objects  \033[0m]"  "\033[K\033[0;32;1m✓\033[0m"
+	@rm -rf $(OBJS)
+	@Make clean -C libft/
+	@rm -rf $(OBJ)
 
 fclean: clean
-	@echo "Suppression de l'executable"
-	$(NEWLINE)
-	@rm -f $(NAME)
+	@echo " \033[36mDeletion    \033[0m[\033[33m binaries \033[0m]"  "\033[K\033[0;32;1m✓\033[0m"
+	@rm -rf $(LIBFT)
+	@rm -rf $(NAME)
 
-re: fclean 
-	@$(MAKE) all
+re: fclean
+	@make all	
 
 .PHONY: all clean fclean re

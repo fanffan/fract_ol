@@ -6,13 +6,13 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 14:13:05 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/10 15:11:38 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/12 14:30:18 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void    ft_mandelbrot(t_env *env, int x, int xmax)
+void    ft_mandelbrot(t_env *env, int x, int xmax, int color)
 {
   double zoom_x;
   double zoom_y;
@@ -47,12 +47,11 @@ void    ft_mandelbrot(t_env *env, int x, int xmax)
           break;
       }
       if (i == env->it)
-        env->data[y * 1000 + x] = 0xFFFFFF;
+        env->data[y * 1000 + x] = color;
       else
-        env->data[y * 1000 + x] = 0xFF0000;
+        env->data[y * 1000 + x] = 0;
       y++;
     }
     x++;
   }
-  mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
 }
