@@ -8,25 +8,25 @@ int			ft_cross(void)
 
 void	*ft_fra1(t_env *env)
 {
-	env->f(env, 0, 250, 0xFFFFFF);
+	env->f(env, 0, 250);
 	pthread_exit(NULL);
 }
 
 void	*ft_fra2(t_env *env)
 {
-	env->f(env, 250, 500, 0xFFFFFF);
+	env->f(env, 250, 500);
 	pthread_exit(NULL);
 }
 
 void	*ft_fra3(t_env *env)
 {
-	env->f(env, 500, 750, 0xFFFFFF);
+	env->f(env, 500, 750);
 	pthread_exit(NULL);
 }
 
 void	*ft_fra4(t_env *env)
 {
-	env->f(env, 750, 1000, 0xFFFFFF);
+	env->f(env, 750, 1000);
 	pthread_exit(NULL);
 }
 
@@ -92,7 +92,7 @@ void   ft_choose_fract(t_env *env, char *str)
 		env->x2 = 0.6;
 		env->y1 = -1.2;
 		env->y2 = 1.2;
-		env->it = 25;
+		env->it = 40;
 		env->f = ft_mandelbrot;
 		env->name = str;
 		ft_fractol(env);
@@ -105,10 +105,8 @@ void   ft_choose_fract(t_env *env, char *str)
 		env->x2 = 1;
 		env->y1 = -1.2;
 		env->y2 = 1.2;
-		env->it = 25;
+		env->it = 50;
 		env->f = ft_julia;
-		env->name = str;
-		env->f = ft_mandelbrot;
 		env->name = str;
 		ft_fractol(env);
 	}
