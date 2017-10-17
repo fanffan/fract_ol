@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 14:13:05 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/16 11:16:44 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/16 16:08:16 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void    ft_mandelbrot(t_env *env, int x, int xmax)
   int y;
   double tmp;
 
-  zoom_x = env->x/(env->x2 - env->x1);
-  zoom_y = env->y/(env->y2 - env->y1);
+  zoom_x = HEIGHT /(env->x2 - env->x1);
+  zoom_y = WIDTH /(env->y2 - env->y1);
   while (x < xmax && x < WIDTH)
   {
     y = 0;

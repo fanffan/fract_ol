@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/12 14:15:16 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/16 11:20:50 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/17 12:13:48 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,28 @@
 
 void	ft_julia(t_env *env, int x, int xmax)
 {
-	double	image_x;
-	double	image_y;
-	double	tmp;
-	double c_r;
-	double c_i;
-	double	z_r;
-	double	z_i;
-	int i;
+	double		tmp;
+	double		c_r;
+	double		c_i;
+	double		z_r;
+	double		z_i;
+	double		zoom_x;
+	double		zoom_y;
+	int		i;
 	int		y;
-	int		zoom;
 
-	zoom = 400;
-	image_x = (env->x2 - env->x1) * zoom;
-	image_y = (env->y2 - env->y1) * zoom;
+	zoom_x = HEIGHT / (env->x2 - env->x1) + env->xmouse;
+	zoom_y = WIDTH / (env->y2 - env->y1) + env->ymouse;
 	while (x < xmax && x < HEIGHT)
 	{
 		y = 0;
-		while (y < WIDTH)
+		while (y < WIDTH) 
 		{
 			i = 0;
-			c_r = 0.285;
-			c_i = 0.01;
-			z_r = x / (zoom + env->x1);
-			z_i = y / (zoom + env->y1);
+			c_r = 0.285 + env->xmouse;
+			c_i = 0.01 + env->ymouse;
+			z_r = x / zoom_x + env->x1;
+			z_i = y / zoom_y + env->y1;
 			while (1)
 			{
 				tmp = z_r;
@@ -48,9 +46,9 @@ void	ft_julia(t_env *env, int x, int xmax)
 					break;
 			}
 			if (i == env->it)
-				env->data[y * 1000 + x] = 0xFFFFFF;
-			else
 				env->data[y * 1000 + x] = 0;
+			else
+				env->data[y * 1000 + x] = 0x0000FF * i / env->it;
 			y++;
 		}
 		x++;

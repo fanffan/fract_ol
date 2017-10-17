@@ -81,13 +81,23 @@ int  ft_mouse(int button, int x,int y, t_env *env)
 	return (0);
 }
 
+int	ft_hook(int x, int y, t_env *env)
+{
+	if (!env->stop)
+	{
+		env->xmouse = (double)x / ((double)HEIGHT * 4);
+		env->ymouse = (double)y / ((double)WIDTH * 4);
+		ft_printf("x:%d, y:%d\n", x, y);
+		ft_fractol(env);
+	}
+	return (0);
+}
+
 void   ft_choose_fract(t_env *env, char *str)
 {
 
 	if (!ft_strcmp("Mandelbrot", str) || !ft_strcmp("mandelbrot", str))
 	{
-		env->x = 1000; 
-		env->y = 1000; 
 		env->x1 = -2.1;
 		env->x2 = 0.6;
 		env->y1 = -1.2;
@@ -99,8 +109,6 @@ void   ft_choose_fract(t_env *env, char *str)
 	}
 	if (!ft_strcmp("Julia", str) || !ft_strcmp("julia", str))
 	{
-		env->x = 1000; 
-		env->y = 1000; 
 		env->x1 = -1;
 		env->x2 = 1;
 		env->y1 = -1.2;
@@ -118,7 +126,14 @@ int   ft_keyboard(int keycode, t_env *env)
 		ft_cross();
 	if (keycode == 15)
 		ft_choose_fract(env, env->name);
-	ft_printf("key:%d\n", keycode);
+	if (keycode == 1)
+	{
+		if (env->stop == 0)
+			env->stop = 1;
+		else
+			env->stop = 0;
+	}
+	ft_printf("key:%d stop:%d\n", keycode, env->stop);
 	return (0); 
 }
 
@@ -129,13 +144,15 @@ void  ft_mlx(t_env *env, char *str)
 	int	endian;
 
 	env->mlx = mlx_init();
-	env->win = mlx_new_window(env->mlx, 1000, 1000, "Fractol");
-	env->img = mlx_new_image(env->mlx, 1000, 1000);
+	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");
+	env->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
 	env->data = (int *)mlx_get_data_addr(env->img, &bpp, &size_l, &endian);
 	env->zoom = 1;
 	ft_choose_fract(env, str);
 	mlx_key_hook(env->win, ft_keyboard, env);
 	mlx_hook(env->win, 17, (1L << 17), ft_cross, env);
+	if (!ft_strcmp(env->name, "julia"))
+		mlx_hook(env->win, 6, (6L << 0), ft_hook, env);
 	mlx_mouse_hook(env->win, ft_mouse, env);
 	mlx_loop(env->mlx);
 }
