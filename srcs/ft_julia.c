@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/12 14:15:16 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/17 12:13:48 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/18 10:23:10 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	ft_julia(t_env *env, int x, int xmax)
 					break;
 			}
 			if (i == env->it)
-				env->data[y * 1000 + x] = 0;
+				env->data[y * WIDTH + x] = 0;
 			else
-				env->data[y * 1000 + x] = 0x0000FF * i / env->it;
+				env->data[y * WIDTH + x] = 0x0000FF * i / env->it;
 			y++;
 		}
 		x++;

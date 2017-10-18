@@ -1,62 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_launcher.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/17 16:29:23 by fmaury            #+#    #+#             */
+/*   Updated: 2017/10/18 16:57:39 by fmaury           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fractol.h"
 
-int			ft_cross(void)
+int		ft_cross(void)
 {
 	exit(0);
 	return (0);
 }
 
-void	*ft_fra1(t_env *env)
+int		ft_mouse(int button, int x, int y, t_env *env)
 {
-	env->f(env, 0, 250);
-	pthread_exit(NULL);
-}
-
-void	*ft_fra2(t_env *env)
-{
-	env->f(env, 250, 500);
-	pthread_exit(NULL);
-}
-
-void	*ft_fra3(t_env *env)
-{
-	env->f(env, 500, 750);
-	pthread_exit(NULL);
-}
-
-void	*ft_fra4(t_env *env)
-{
-	env->f(env, 750, 1000);
-	pthread_exit(NULL);
-}
-
-void	ft_fractol(t_env *env)
-{
-	pthread_t	thread[4];
-	void		(*fra[4])(t_env*);
-	int			i;
-
-	i = 0;
-	fra[0] = (void*)ft_fra1;
-	fra[1] = (void*)ft_fra2;
-	fra[2] = (void*)ft_fra3;
-	fra[3] = (void*)ft_fra4;
-	while (i < 4)
-	{
-		pthread_create(&thread[i], NULL, (void*)fra[i], env);
-		i++;
-	}
-	while (i >= 0)
-	{
-		pthread_join(thread[i], NULL);
-		i--;
-	}
-  mlx_put_image_to_window(env->mlx, env->win, env->img, 0, 0);
-}
-
-int  ft_mouse(int button, int x,int y, t_env *env)
-{
-	ft_printf("buttton:%d x:%d y:%d\n",button, x, y);
+	ft_printf("buttton:%d x:%d y:%d\n", button, x, y);
 	if (button == 1)
 	{
 		env->diff_y = (env->y2 - env->y1) * 0.2;
@@ -81,9 +45,9 @@ int  ft_mouse(int button, int x,int y, t_env *env)
 	return (0);
 }
 
-int	ft_hook(int x, int y, t_env *env)
+int		ft_hook(int x, int y, t_env *env)
 {
-	if (!env->stop)
+	if (env->stop)
 	{
 		env->xmouse = (double)x / ((double)HEIGHT * 4);
 		env->ymouse = (double)y / ((double)WIDTH * 4);
@@ -93,10 +57,10 @@ int	ft_hook(int x, int y, t_env *env)
 	return (0);
 }
 
-void   ft_choose_fract(t_env *env, char *str)
+void	ft_choose_fract(t_env *env, char *str)
 {
-
-	if (!ft_strcmp("Mandelbrot", str) || !ft_strcmp("mandelbrot", str))
+	env->name = ft_strtolower(str);
+	if (!ft_strcmp("mandelbrot", env->name))
 	{
 		env->x1 = -2.1;
 		env->x2 = 0.6;
@@ -104,10 +68,9 @@ void   ft_choose_fract(t_env *env, char *str)
 		env->y2 = 1.2;
 		env->it = 40;
 		env->f = ft_mandelbrot;
-		env->name = str;
 		ft_fractol(env);
 	}
-	if (!ft_strcmp("Julia", str) || !ft_strcmp("julia", str))
+	else if (!ft_strcmp("julia", env->name))
 	{
 		env->x1 = -1;
 		env->x2 = 1;
@@ -115,12 +78,71 @@ void   ft_choose_fract(t_env *env, char *str)
 		env->y2 = 1.2;
 		env->it = 50;
 		env->f = ft_julia;
-		env->name = str;
+		ft_fractol(env);
+	}
+	else if (!ft_strcmp("mandelbrot5", env->name))
+	{
+		env->x1 = -2.1 + 0.7;
+		env->x2 = 0.6 + 0.7;
+		env->y1 = -1.2;
+		env->y2 = 1.2;
+		env->it = 50;
+		env->f = ft_mandelbrot5;
+		ft_fractol(env);
+	}
+	else if (!ft_strcmp("mandelbrot4", env->name))
+	{
+		env->x1 = -2.1 + 0.7;
+		env->x2 = 0.6 + 0.7;
+		env->y1 = -1.2;
+		env->y2 = 1.2;
+		env->it = 50;
+		env->f = ft_mandelbrot4;
+		ft_fractol(env);
+	}
+	else if (!ft_strcmp("burning_ship", env->name))
+	{
+		env->x1 = -2.1 + 0.7;
+		env->x2 = 0.6 + 0.7;
+		env->y1 = -1.2;
+		env->y2 = 1.2;
+		env->it = 50;
+		env->f = ft_burning_ship;
+		ft_fractol(env);
+	}
+	else if (!ft_strcmp("tricorne", env->name))
+	{
+		env->x1 = -2.1 + 0.5;
+		env->x2 = 0.6 + 0.5;
+		env->y1 = -1.2;
+		env->y2 = 1.2;
+		env->it = 50;
+		env->f = ft_tricorne;
+		ft_fractol(env);
+	}
+	else if (!ft_strcmp("burning_ship2", env->name))
+	{
+		env->x1 = -2.1;
+		env->x2 = 0.6;
+		env->y1 = -1.2 - 0.5;
+		env->y2 = 1.2 - 0.5;
+		env->it = 50;
+		env->f = ft_burning_ship2;
+		ft_fractol(env);
+	}
+	else if (!ft_strcmp("celtic_heart", env->name))
+	{
+		env->x1 = -2.1;
+		env->x2 = 0.6;
+		env->y1 = -1.2;
+		env->y2 = 1.2;
+		env->it = 50;
+		env->f = ft_celtic_heart;
 		ft_fractol(env);
 	}
 }
 
-int   ft_keyboard(int keycode, t_env *env)
+int		ft_keyboard(int keycode, t_env *env)
 {
 	if (keycode == 53)
 		ft_cross();
@@ -133,15 +155,62 @@ int   ft_keyboard(int keycode, t_env *env)
 		else
 			env->stop = 0;
 	}
+	if (keycode == 8)
+	{
+		if (env->i == 0)
+			env->color = 0x00FF00;
+		else if (env->i == 1)
+			env->color = 0xFF0000;
+		if (env->i == 2)
+		{
+			env->color = 0x0000FF;
+			env->i = -1;
+		}
+		ft_fractol(env);
+		env->i++;
+	}
+	if (keycode == 46)
+	{
+		if (env->i == 0)
+		env->color = 0x000FF0;
+		else if (env->i == 1)
+			env->color = 0x0FF000;
+		if (env->i == 2)
+		{
+			env->color = 0xFFFF0F;
+			env->i = -1;
+		}
+		ft_fractol(env);
+		env->i++;
+		ft_fractol(env);
+	}
+	if (!env->name)
+		ft_strdel(&env->name);
+	if (keycode == 18)
+		ft_choose_fract(env, "julia");
+	if (keycode == 19)
+		ft_choose_fract(env, "mandelbrot");
+	if (keycode == 20)
+		ft_choose_fract(env, "mandelbrot4");
+	if (keycode == 21)
+		ft_choose_fract(env, "mandelbrot5");
+	if (keycode == 23)
+		ft_choose_fract(env, "burning_ship");
+	if (keycode == 22)
+		ft_choose_fract(env, "burning_ship2");
+	if (keycode == 26)
+		ft_choose_fract(env, "tricorne");
+	if (keycode == 28)
+		ft_choose_fract(env, "celtic_heart");
 	ft_printf("key:%d stop:%d\n", keycode, env->stop);
 	return (0); 
 }
 
-void  ft_mlx(t_env *env, char *str)
+void	ft_mlx(t_env *env, char *str)
 {
 	int			size_l;
 	int			bpp;
-	int	endian;
+	int			endian;
 
 	env->mlx = mlx_init();
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");
@@ -151,17 +220,17 @@ void  ft_mlx(t_env *env, char *str)
 	ft_choose_fract(env, str);
 	mlx_key_hook(env->win, ft_keyboard, env);
 	mlx_hook(env->win, 17, (1L << 17), ft_cross, env);
-	if (!ft_strcmp(env->name, "julia"))
-		mlx_hook(env->win, 6, (6L << 0), ft_hook, env);
+	mlx_hook(env->win, 6, (6L << 0), ft_hook, env);
 	mlx_mouse_hook(env->win, ft_mouse, env);
 	mlx_loop(env->mlx);
 }
 
-int   ft_launcher(char *str)
+int		ft_launcher(char *str)
 {
-	t_env env;
+	t_env 		env;
 
 	ft_bzero(&env, sizeof(t_env));
+	env.color = 0x0000FF;
 	ft_mlx(&env, str);
 	return (0);
 }

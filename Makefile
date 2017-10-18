@@ -2,7 +2,7 @@ NAME				= fractol
 
 COMPILER			= gcc
 
-CC_FLAGS			= -Wall -Werror -Wextra
+CC_FLAGS			= -Wall -Werror -Wextra -g
 
 LIBFT				= libft/libft.a
 
@@ -16,8 +16,15 @@ SRC_DIR				= srcs
 
 SRC		=	main.c \
         ft_launcher.c \
+		ft_fractol.c \
 		ft_julia.c \
-        ft_mandelbrot.c
+        ft_mandelbrot.c \
+        ft_mandelbrot5.c \
+        ft_mandelbrot4.c \
+        ft_burning_ship.c \
+        ft_burning_ship2.c \
+        ft_tricorne.c \
+		ft_celtic_heart.c
 
 SRCS				= $(addprefix $(ASM_SRC_DIR)/, $(ASM_SRC))
 
