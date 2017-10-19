@@ -6,50 +6,31 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 15:13:52 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/17 16:26:37 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/19 17:49:05 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-void	*ft_fra1(t_env *env)
+void	*ft_fra(t_thread *thr)
 {
-	env->f(env, 0, WIDTH / 4);
-	pthread_exit(NULL);
-}
-
-void	*ft_fra2(t_env *env)
-{
-	env->f(env, WIDTH / 4, WIDTH / 4 * 2);
-	pthread_exit(NULL);
-}
-
-void	*ft_fra3(t_env *env)
-{
-	env->f(env, WIDTH / 4 * 2, WIDTH / 4 * 3);
-	pthread_exit(NULL);
-}
-
-void	*ft_fra4(t_env *env)
-{
-	env->f(env, WIDTH / 4 * 3, WIDTH);
+	ft_draw_frac(thr->env, WIDTH / NBTHREAD * thr->i, WIDTH / NBTHREAD
+			* (thr->i + 1));
 	pthread_exit(NULL);
 }
 
 void	ft_fractol(t_env *env)
 {
-	pthread_t	thread[4];
-	void		(*fra[4])(t_env*);
+	pthread_t	thread[NBTHREAD];
+	t_thread	thr[NBTHREAD];
 	int			i;
 
 	i = 0;
-	fra[0] = (void*)ft_fra1;
-	fra[1] = (void*)ft_fra2;
-	fra[2] = (void*)ft_fra3;
-	fra[3] = (void*)ft_fra4;
-	while (i < 4)
+	while (i < NBTHREAD)
 	{
-		pthread_create(&thread[i], NULL, (void*)fra[i], env);
+		thr[i].env = env;
+		thr[i].i = i;
+		pthread_create(&thread[i], NULL, (void*)ft_fra, &thr[i]);
 		i++;
 	}
 	while (i >= 0)
