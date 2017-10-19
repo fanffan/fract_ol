@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 14:13:05 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/18 14:52:30 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/19 13:36:32 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	ft_burning_ship2_2(t_env *env, int x, double zoom_x, double zoom_y)
 	while (y < HEIGHT)
 	{
 
-		z_r = 0;
-		z_i = 0;
+		z_r = 4 * env->xmouse;
+		z_i = 4 * env->ymouse;
 		i = 0;
 		c_i = y / zoom_y + env->y1;
 		c_r = x / zoom_x + env->x1;
@@ -47,7 +47,7 @@ void	ft_burning_ship2_2(t_env *env, int x, double zoom_x, double zoom_y)
 		if (i == env->it)
 			env->data[y * WIDTH + x] = 0;
 		else
-			env->data[y * WIDTH + x] = 0x0000FF * i / env->it;
+			env->data[y * WIDTH + x] = env->color * i / (int)env->it & env->color;
 		y++;
 	}
 }

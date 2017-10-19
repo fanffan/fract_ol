@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/09 14:13:05 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/18 15:20:07 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/19 13:36:15 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	ft_celtic_heart2(t_env *env, int x, double zoom_x, double zoom_y)
 	{
 
 		i = 0;
-		z_r = 0; 
-		z_i = 0;
+		z_r = 4 * env->xmouse;
+		z_i = 4 * env->ymouse;
 		c_i = y / zoom_y + env->y1;
 		c_r = x / zoom_x + env->x1;
 		while (1)
@@ -43,7 +43,7 @@ void	ft_celtic_heart2(t_env *env, int x, double zoom_x, double zoom_y)
 		if (i == env->it)
 			env->data[y * WIDTH + x] = 0;
 		else
-			env->data[y * WIDTH + x] = 0x0000FF * i / env->it;
+			env->data[y * WIDTH + x] = env->color * i / (int)env->it & env->color;
 		y++;
 	}
 }
