@@ -6,18 +6,11 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 16:29:23 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/20 10:15:01 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/20 16:43:08 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-static int		ft_cross(t_env *env)
-{
-	ft_strdel(&env->name);
-	exit(0);
-	return (0);
-}
 
 int				ft_mouse(int button, int x, int y, t_env *env)
 {
@@ -31,7 +24,7 @@ int				ft_mouse(int button, int x, int y, t_env *env)
 		env->x2 = (env->x2 - env->diff_x * (1 - ((double)x / WIDTH)));
 		env->it += 1;
 	}
-	if (button == 2 || button == 6)
+	else if ((env->y2 - env->y1) * 0.2 < 500 && (button == 2 || button == 4))
 	{
 		env->diff_y = (env->y2 - env->y1) * 0.2;
 		env->diff_x = (env->x2 - env->x1) * 0.2;
@@ -66,7 +59,6 @@ void			ft_mlx(t_env *env, char *str)
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");
 	env->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
 	env->data = (int *)mlx_get_data_addr(env->img, &bpp, &size_l, &endian);
-	env->zoom = 1;
 	ft_choose_fract(env, str);
 	mlx_key_hook(env->win, ft_keyboard, env);
 	mlx_hook(env->win, 17, (1L << 17), ft_cross, env);

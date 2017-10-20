@@ -2,7 +2,7 @@ NAME				= fractol
 
 COMPILER			= gcc
 
-CC_FLAGS			= -Wall -Werror -Wextra -g
+CC_FLAGS			= -Wall -Werror -Wextra
 
 LIBFT				= libft/libft.a
 
@@ -21,6 +21,7 @@ SRC		=	main.c \
 		ft_draw_frac.c \
 		ft_keyboard.c \
 		ft_julia.c \
+		ft_cross.c \
         ft_mandelbrot.c \
         ft_mandelbrot5.c \
         ft_mandelbrot4.c \

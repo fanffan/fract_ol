@@ -6,18 +6,11 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 18:32:59 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/20 10:16:58 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/20 16:43:21 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-
-static int		ft_cross(t_env *env)
-{
-	ft_strdel(&env->name);
-	exit(0);
-	return (0);
-}
 
 void			ft_switch(int keycode, t_env *env)
 {
@@ -87,6 +80,31 @@ void			ft_simple_color(int keycode, t_env *env)
 	}
 }
 
+void			ft_decal(int keycode, t_env *env)
+{
+	if (keycode == 123)
+	{
+		env->x1 += 0.25;
+		env->x2 += 0.25;
+	}
+	if (keycode == 124)
+	{
+		env->x1 -= 0.25;
+		env->x2 -= 0.25;
+	}
+	if (keycode == 126)
+	{
+		env->y1 += 0.25;
+		env->y2 += 0.25;
+	}
+	if (keycode == 125)
+	{
+		env->y1 -= 0.25;
+		env->y2 -= 0.25;
+	}
+	ft_fractol(env);
+}
+
 int				ft_keyboard(int keycode, t_env *env)
 {
 	if (keycode == 53)
@@ -107,5 +125,7 @@ int				ft_keyboard(int keycode, t_env *env)
 	ft_simple_color(keycode, env);
 	ft_multi_color(keycode, env);
 	ft_switch(keycode, env);
+	if (keycode == 123 || keycode == 124 || keycode == 125 || keycode == 126)
+		ft_decal(keycode, env);
 	return (0);
 }
