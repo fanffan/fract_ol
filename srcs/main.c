@@ -6,20 +6,34 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 16:26:48 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/19 14:09:38 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/20 11:16:12 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
+int		ft_isfract2(char *str1, char *str2)
+{
+	char *cpy;
+
+	cpy = ft_strtolower(str2);
+	if (!ft_strcmp(str1, cpy))
+	{
+		ft_strdel(&cpy);
+		return (1);
+	}
+	ft_strdel(&cpy);
+	return (0);
+}
+
 int		ft_isfract(char *str)
 {
-	if (!ft_strcmp("julia", ft_strtolower(str)) || !ft_strcmp("mandelbrot",
-	ft_strtolower(str)) || !ft_strcmp("mandelbrot5", ft_strtolower(str)) ||
-	!ft_strcmp("mandelbrot4", ft_strtolower(str)) || !ft_strcmp("burning_ship",
-	ft_strtolower(str)) || !ft_strcmp("tricorne", ft_strtolower(str)) ||
-	!ft_strcmp("burning_ship2", ft_strtolower(str)) ||
-	!ft_strcmp("celtic_heart", ft_strtolower(str)))
+	if (ft_isfract2("julia", str) || ft_isfract2("mandelbrot",
+	str) || ft_isfract2("mandelbrot5", str) ||
+	ft_isfract2("mandelbrot4", str) || ft_isfract2("burning_ship",
+	str) || ft_isfract2("tricorne", str) ||
+	ft_isfract2("burning_ship2", str) ||
+	ft_isfract2("celtic_heart", str))
 		return (1);
 	return (0);
 }

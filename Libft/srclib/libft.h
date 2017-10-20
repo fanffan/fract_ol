@@ -6,7 +6,7 @@
 /*   By: fmaury <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/07 09:44:40 by fmaury            #+#    #+#             */
-/*   Updated: 2017/06/08 15:38:59 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/20 11:25:48 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char				*ft_strstr(const char *big, const char *little);
 char				*ft_strnstr(const char *big, const char *little,
 								size_t len);
 char				*ft_strchr(const char *s, int c);
+char				*ft_strtolower(char *str);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_itoa(long long int nb);
 char				*ft_itoa_base(unsigned long long int n, int base);
@@ -59,10 +60,10 @@ char				*ft_cmjoin(char *str, char c, int len);
 char				*ft_strjoin(char const *s1, char const *s2, int fr);
 char				*ft_strljoin(char *s1, char *s2, int len1, int len2);
 char				*ft_strtrim(char const *s);
-void	    	*ft_memjoin(void *s1, void *s2, int len1, int len2);
+void				*ft_memjoin(void *s1, void *s2, int len1, int len2);
 char				**ft_strsplit(char const *s, char c);
 char				**ft_strsplitif(char const *s, int (*f)(char));
-char				**ft_strsplitnbif(char const *s, int (*f)(char),int n);
+char				**ft_strsplitnbif(char const *s, int (*f)(char), int n);
 char				**ft_strtab(char **tab, char *str);
 int					ft_sqrt(int nb);
 int					ft_isalpha(int c);

@@ -6,19 +6,20 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/17 16:29:23 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/19 18:38:12 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/20 10:15:01 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static int		ft_cross(void)
+static int		ft_cross(t_env *env)
 {
+	ft_strdel(&env->name);
 	exit(0);
 	return (0);
 }
 
-int		ft_mouse(int button, int x, int y, t_env *env)
+int				ft_mouse(int button, int x, int y, t_env *env)
 {
 	if (button == 1 || button == 5)
 	{
@@ -44,7 +45,7 @@ int		ft_mouse(int button, int x, int y, t_env *env)
 	return (0);
 }
 
-int		ft_hook(int x, int y, t_env *env)
+int				ft_hook(int x, int y, t_env *env)
 {
 	if (env->stop)
 	{
@@ -55,7 +56,7 @@ int		ft_hook(int x, int y, t_env *env)
 	return (0);
 }
 
-void	ft_mlx(t_env *env, char *str)
+void			ft_mlx(t_env *env, char *str)
 {
 	int			size_l;
 	int			bpp;
@@ -74,7 +75,7 @@ void	ft_mlx(t_env *env, char *str)
 	mlx_loop(env->mlx);
 }
 
-int		ft_launcher(char *str)
+int				ft_launcher(char *str)
 {
 	t_env		env;
 

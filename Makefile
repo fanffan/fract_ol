@@ -17,6 +17,9 @@ SRC_DIR				= srcs
 SRC		=	main.c \
         ft_launcher.c \
 		ft_fractol.c \
+		ft_choose_fract.c \
+		ft_draw_frac.c \
+		ft_keyboard.c \
 		ft_julia.c \
         ft_mandelbrot.c \
         ft_mandelbrot5.c \

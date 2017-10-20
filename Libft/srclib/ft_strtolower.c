@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strljoin.c                                      :+:      :+:    :+:   */
+/*   ft_strtolower.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/02/22 17:20:00 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/20 11:22:33 by fmaury           ###   ########.fr       */
+/*   Created: 2017/10/17 15:02:50 by fmaury            #+#    #+#             */
+/*   Updated: 2017/10/20 11:23:06 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void		*ft_memjoin(void *s1, void *s2, int len1, int len2)
+char	*ft_strtolower(char *str)
 {
-	int				j;
-	unsigned char	*str;
-	unsigned char	*s2b;
+	char	*cpy;
+	int		i;
 
-	s2b = (unsigned char*)s2;
-	j = 0;
-	if (!(str = ft_memalloc(len1 + len2)))
-		return (NULL);
-	str = ft_memcpy(str, (unsigned char*)s1, len1);
-	while (j < len2)
+	i = 0;
+	cpy = ft_strnew(sizeof(char) * ft_strlen(str));
+	while (str[i])
 	{
-		str[len1 + j] = s2b[j];
-		j++;
+		cpy[i] = ft_tolower(str[i]);
+		i++;
 	}
-	return (str);
+	return (cpy);
 }

@@ -6,7 +6,7 @@
 /*   By: fmaury <fmaury@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/19 18:20:48 by fmaury            #+#    #+#             */
-/*   Updated: 2017/10/19 18:29:06 by fmaury           ###   ########.fr       */
+/*   Updated: 2017/10/20 10:04:17 by fmaury           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	ft_choose_other(t_env *env)
 
 void	ft_choose_fract(t_env *env, char *str)
 {
-	env->name = ft_strtolower(str);
+	if (!env->name)
+		env->name = ft_strtolower(str);
 	env->it = 40;
 	if (env->name[0] == 'm')
 		ft_choose_mandel(env);
